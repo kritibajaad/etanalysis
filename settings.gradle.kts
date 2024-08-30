@@ -3,4 +3,4 @@ pluginManagement {
         kotlin("jvm") version "2.0.0"
     }
 }
-rootProject.name = "eta"
+rootProject.name = "etanalysis"
