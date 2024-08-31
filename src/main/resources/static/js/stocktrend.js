@@ -72,3 +72,37 @@ document.getElementById('priceButton').addEventListener('click', function() {
       resultDiv.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
     });
 });
+
+
+document.getElementById('submitPrediction').addEventListener('click', function() {
+  const ticker = document.getElementById('tickerInput').value;
+  const useSMA = document.getElementById('useSMA').checked;
+  const useVolatility = document.getElementById('useVolatility').checked;
+  const days = document.getElementById('daysInput').value;
+  const resultDiv = document.getElementById('result');
+
+  // Clear any previous results
+  resultDiv.innerHTML = '';
+
+  // Validate input
+  if (!ticker || isNaN(days) || days <= 0) {
+    resultDiv.innerHTML = '<p>Please enter a valid ticker and number of days.</p>';
+    return;
+  }
+
+  // Build the API URL with prediction parameters
+  const url = `http://localhost:8080/predictPrice?ticker=${ticker}&useSMA=${useSMA}&useVolatility=${useVolatility}&days=${days}`;
+
+  // Make the AJAX call for prediction
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      resultDiv.innerHTML = `
+        <h2>Predicted Future Price</h2>
+        <p><strong>Predicted Price:</strong> ${data.predictedPrice}</p>
+      `;
+    })
+    .catch(error => {
+      resultDiv.innerHTML = `<p>Error fetching prediction: ${error.message}</p>`;
+    });
+});

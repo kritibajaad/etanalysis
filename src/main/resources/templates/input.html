@@ -12,7 +12,30 @@
   <input type="text" id="tickerInput" placeholder="Enter stock ticker" required>
   <br>
   <button id="searchButton">Get Details</button>
-  <button id="priceButton">Get EOD Prices</button>
+  <button id="priceButton">Charts</button>
+  <button id="predictButton">Predict Future Price</button>
+
+  <!-- New inputs for prediction -->
+  <div id="predictionOptions">
+    <h2>Prediction Options</h2>
+    <label>
+      <input type="checkbox" id="useSMA">
+      Use SMA Calculation
+    </label>
+    <br>
+    <label>
+      <input type="checkbox" id="useVolatility">
+      Use Volatility
+    </label>
+    <br>
+    <label>
+      Data for how many days in past:
+      <input type="number" id="daysInput" min="1" placeholder="e.g., 90">
+    </label>
+    <br>
+    <button id="submitPrediction">Calculate Future Price</button>
+  </div>
+
   <div id="result" class="result"></div>
 </div>
 
