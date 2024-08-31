@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import weka.classifiers.functions.LinearRegression;
 import weka.core.Instance;
@@ -21,23 +22,6 @@ import weka.core.Instances;
 
 @RestController
 public class ETAService {
-
-    @GetMapping("msg")
-    public String showMessage(){
-        String ticker = "AAPL";
-        List<Double> prices = null;
-        try {
-            prices = StockDataGatherer.fetchStockPrices(ticker);
-        }
-        catch (Exception excp){
-            System.out.println(Arrays.toString(excp.getStackTrace()));
-        }
-
-        JSONArray jsonPrices = new JSONArray(prices);
-        System.out.println("Length of List is : " + prices.size());
-        System.out.println("Fetched Prices (as JSON): " + jsonPrices.toString(4));
-        return jsonPrices.toString(4);
-    }
 
     @PostMapping("ticker")
     public String getStockMetaData(){
@@ -80,18 +64,31 @@ public class ETAService {
     }
 
     @GetMapping("/predictPrice/{ticker}")
-    public String getStockMetaData(@PathVariable String ticker) {
+    public String predictStockPrice(@PathVariable String ticker,
+                                    @RequestParam String useSMA,
+                                    @RequestParam int days) {
 
+        System.out.println("Inside the predictStockPrice" + ticker + " " + useSMA + " "+ days);
         List<Double> prices = null;
+        int numOfDays = 0;
+        // int calendarDays = Integer.parseInt(days);
+        boolean useSMAFlag = "true".equalsIgnoreCase(useSMA);
+
         try {
-            prices = StockDataGatherer.fetchStockPrices(ticker);
+            prices = StockDataGatherer.fetchStockPrices(ticker, days);
+            numOfDays = prices.size();
         }
         catch (Exception excp){
             System.out.println(Arrays.toString(excp.getStackTrace()));
         }
 
         // Prepare data for Weka
-        Instances dataset = DataProcessor.prepareDataForAIModel(prices);
+        Instances dataset = null;
+        if (useSMAFlag){
+            dataset = DataProcessor.prepareDataForAIModelWithParams(prices, numOfDays, numOfDays-1);
+        } else {
+            dataset = DataProcessor.prepareDataForAIModel(prices);
+        }
 
         // Train the model
         double predictedPrice = 0;
@@ -106,7 +103,32 @@ public class ETAService {
         }
 
         System.out.println("Predicted next stock price: " + Double.toString(predictedPrice));
-        return Double.toString(predictedPrice);
+
+        JSONObject json = new JSONObject();
+        json.put("predictedPrice", Double.toString(predictedPrice));
+        System.out.println("The size of price list is : " + prices.size());
+        return json.toString();
+    }
+
+    /*
+    The purpose of this method is to just test the data retrieval of data from API
+    This method is NOT being called from JS or HTML page.
+    * */
+    @GetMapping("msg")
+    public String showMessage(){
+        String ticker = "AAPL";
+        List<Double> prices = null;
+        try {
+            prices = StockDataGatherer.fetchStockPrices(ticker, Integer.getInteger("90"));
+        }
+        catch (Exception excp){
+            System.out.println(Arrays.toString(excp.getStackTrace()));
+        }
+
+        JSONArray jsonPrices = new JSONArray(prices);
+        System.out.println("Length of List is : " + prices.size());
+        System.out.println("Fetched Prices (as JSON): " + jsonPrices.toString(4));
+        return jsonPrices.toString(4);
     }
 
 }

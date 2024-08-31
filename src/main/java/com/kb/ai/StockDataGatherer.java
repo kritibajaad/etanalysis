@@ -15,10 +15,10 @@ import java.util.List;
 
 public class StockDataGatherer {
 
-    public static List<Double> fetchStockPrices(String ticker) throws Exception {
+    public static List<Double> fetchStockPrices(String ticker, int numOfDays) throws Exception {
 
         LocalDate endDate = LocalDate.now().minusDays(1); // Yesterday
-        LocalDate startDate = endDate.minusDays(90); // 90 days before yesterday
+        LocalDate startDate = endDate.minusDays(numOfDays); // 90 days before yesterday
 
         // Format dates
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -43,6 +43,8 @@ public class StockDataGatherer {
             double closePrice = dayData.getDouble("close");
             prices.add(closePrice);
         }
+        System.out.println("Length of List is : " + prices.size());
+        System.out.println("Fetched Prices (as List String): " + prices.toString());
         return prices;
     }
 

@@ -12,20 +12,15 @@
   <input type="text" id="tickerInput" placeholder="Enter stock ticker" required>
   <br>
   <button id="searchButton">Get Details</button>
-  <button id="priceButton">Charts</button>
+  <button id="priceButton">Latest Price</button>
   <button id="predictButton">Predict Future Price</button>
 
-  <!-- New inputs for prediction -->
-  <div id="predictionOptions">
+  <!-- Prediction Options initially hidden -->
+  <div id="predictionOptions" style="display: none;">
     <h2>Prediction Options</h2>
     <label>
       <input type="checkbox" id="useSMA">
-      Use SMA Calculation
-    </label>
-    <br>
-    <label>
-      <input type="checkbox" id="useVolatility">
-      Use Volatility
+      Use SMA and Velocity Calculation
     </label>
     <br>
     <label>
@@ -36,7 +31,11 @@
     <button id="submitPrediction">Calculate Future Price</button>
   </div>
 
-  <div id="result" class="result"></div>
+  <div id="resultDetails" class="result"></div>
+  <BR>
+  <div id="resultPrices" class="result"></div>
+  <BR>
+  <div id="resultPrediction" class="result"></div>
 </div>
 
 <script src="js/stocktrend.js"></script>
