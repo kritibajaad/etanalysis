@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import org.json.JSONArray;
@@ -32,13 +34,24 @@ public class ETAService {
     @GetMapping("/tickerData/{ticker}")
     public String getStockMetaData(@PathVariable String ticker,  @RequestParam String actionName) {
         // String ticker = "AAPL"; // Example ticker
-
+        // String url = ETAConstants.apiUrl + ticker + "/prices?token=" + ETAConstants.apiKey;
         String url = ETAConstants.apiUrl + ticker;
 
         if (actionName.equalsIgnoreCase("eodprice"))
             url = url + "/prices";
-        else if (actionName.equalsIgnoreCase("historical"))
-            url = url + "/prices?startDate=" + "2024-6-1&endDate=2024-8-28";
+        else if (actionName.equalsIgnoreCase("historical")) {
+            LocalDate endDate = LocalDate.now().minusDays(1); // Yesterday
+            LocalDate startDate = endDate.minusDays(90); // 90 days before yesterday
+
+            // Format dates
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String startDateStr = startDate.format(formatter);
+            String endDateStr = endDate.format(formatter);
+
+            url = url + "/prices?" +
+                    "startDate=" + startDateStr +
+                    "&endDate=" + endDateStr;
+        }
 
         // Setup RestTemplate
         RestTemplate restTemplate = new RestTemplate();

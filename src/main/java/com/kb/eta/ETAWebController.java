@@ -15,10 +15,31 @@ public class ETAWebController {
             return "index";
         }
 
-        @GetMapping("/input")
+        /*@GetMapping("/input")
         public String showForm() {
-            // This will look for the 'index.html' in the resources/templates directory for Thymeleaf
+            // This will look for the 'input.html' in the resources/templates directory for Thymeleaf
             // Or in resources/static if using static content like plain HTML
             return "input";
+        }*/
+
+        @GetMapping("/ticker")
+        public String showTickerForm() {
+            // This will look for the 'ticker.html' in the resources/templates directory for Thymeleaf
+            // Or in resources/static if using static content like plain HTML
+            return "ticker";
+        }
+
+        @GetMapping("/stock-details")
+        public String showDetailsForm() {
+            // This will look for the 'ticker-details.html' in the resources/templates directory for Thymeleaf
+            // Or in resources/static if using static content like plain HTML
+            return "stock-details";
+        }
+
+        @GetMapping("/stockchart")
+        public String showStockChart() {
+            // This will look for the 'ticker-details.html' in the resources/templates directory for Thymeleaf
+            // Or in resources/static if using static content like plain HTML
+            return "stockchart";
         }
 }

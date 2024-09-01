@@ -3,15 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stock Ticker Search</title>
+  <title>Stock Details and Prediction</title>
   <link rel="stylesheet" href="css/etastyles.css">
 </head>
 <body>
 <div class="container">
-  <h1>Stock Ticker Search</h1>
-  <input type="text" id="tickerInput" placeholder="Enter stock ticker" required>
-  <br>
-  <button id="searchButton">Get Details</button>
+  <h1>Stock Details for <span id="tickerDisplay"></span></h1>
   <button id="priceButton">Latest Price</button>
   <button id="predictButton">Predict Future Price</button>
 
@@ -31,13 +28,11 @@
     <button id="submitPrediction">Calculate Future Price</button>
   </div>
 
-  <div id="resultDetails" class="result"></div>
-  <BR>
   <div id="resultPrices" class="result"></div>
-  <BR>
+  <br>
   <div id="resultPrediction" class="result"></div>
 </div>
 
-<script src="js/stocktrend.js"></script>
+<script src="js/stock-details.js"></script>
 </body>
 </html>
