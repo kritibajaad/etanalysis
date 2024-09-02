@@ -39,11 +39,4 @@ This project is a Spring Boot-based Java application developed to predict stock 
 - Gradle 6.x or higher
 - A Tiingo API key for market data retrieval
 
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/your-username/stock-market-prediction-tool.git
-
  
