@@ -8,6 +8,8 @@ This project is a Spring Boot-based Java application developed to predict stock 
 
 - **Stock Price Prediction**: Using the WEKA machine learning API, models are trained with historical market data to predict stock prices. The application offers various prediction options, including simple moving averages and volatility analysis.
 
+- **Graph Visualization**: The application includes graph visualization features, where users can view stock price trends and predictions over time. The graphs dynamically update based on the user's input, offering a visual representation of market data and prediction results.
+
 - **Market Data Retrieval**: By integrating the Tiingo API, the application retrieves detailed stock information such as metadata, range, and standard data. This data is then processed and displayed in a user-friendly format, including tables and formatted text.
 
 - **AJAX-Based Interaction**: Users can input a stock ticker symbol, and the application retrieves the relevant data from the server using AJAX. The stock information and pricing data are then displayed dynamically on the web page.
