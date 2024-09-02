@@ -3,6 +3,7 @@ document.getElementById('searchButton').addEventListener('click', function() {
   const actionName = "details";
   const resultDivDetails = document.getElementById('resultDetails');
   const moreDetailsLink = document.getElementById('moreDetailsLink');
+  const graphsLink = document.getElementById('graphsLink');
 
   // Clear any previous results
   resultDivDetails.innerHTML = '';
@@ -22,6 +23,8 @@ document.getElementById('searchButton').addEventListener('click', function() {
       `;
       moreDetailsLink.style.display = 'inline';
       moreDetailsLink.href = `stock-details?ticker=${ticker}`;
+      graphsLink.style.display = 'inline';
+      graphsLink.href = `stockchart?ticker=${ticker}`;
     })
     .catch(error => {
       resultDivDetails.innerHTML = `<p>Error fetching data: ${error.message}</p>`;

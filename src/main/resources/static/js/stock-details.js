@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const ticker = urlParams.get('ticker');
   document.getElementById('tickerDisplay').textContent = ticker;
+  const graphsLink = document.getElementById('graphsLink');
 
   let latestClosePrice = null; // Variable to store the latest close price
 
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Clear any previous results
     resultDivPrices.innerHTML = '';
+    graphsLink.style.display = 'none';
 
     // Make the AJAX call
     fetch(`http://localhost:8080/tickerData/${ticker}?actionName=${actionName}`)
@@ -48,6 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           resultDivPrices.innerHTML = '<p>No data available.</p>';
         }
+        graphsLink.style.display = 'inline';
+        graphsLink.href = `stockchart?ticker=${ticker}`;
       })
       .catch(error => {
         resultDivPrices.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
@@ -96,6 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
           <p><strong>Predicted Price:</strong> ${data.predictedPrice}</p>
           ${suggestion}
         `;
+         graphsLink.style.display = 'inline';
+         graphsLink.href = `stockchart?ticker=${ticker}`;
       })
       .catch(error => {
         resultDivPrediction.innerHTML = `<p>Error fetching prediction: ${error.message}</p>`;

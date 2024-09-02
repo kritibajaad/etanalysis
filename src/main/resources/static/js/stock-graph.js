@@ -1,6 +1,12 @@
+document.addEventListener('DOMContentLoaded', function() {
+	  const urlParams = new URLSearchParams(window.location.search);
+	  const ticker = urlParams.get('ticker');
+	  document.getElementById('tickerInput').value = ticker;
+
 document.getElementById('fetchDataButton').addEventListener('click', function() {
   const ticker = document.getElementById('tickerInput').value;
   const timeRange = document.getElementById('timeRange').value;
+  const detailsLink = document.getElementById('detailsLink');
   let startDate, endDate, tmpDate;
   const today = new Date();
 
@@ -98,10 +104,14 @@ document.getElementById('fetchDataButton').addEventListener('click', function() 
           }
         }
       });
+      detailsLink.style.display = 'inline';
+      detailsLink.href = `stock-details?ticker=${ticker}`;
     })
     .catch(error => {
       console.error('Error fetching data:', error);
       alert("Failed to fetch data. Please try again.");
     });
+  });
 });
+
 
