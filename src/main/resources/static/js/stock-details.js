@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const ticker = urlParams.get('ticker');
   document.getElementById('tickerDisplay').textContent = ticker;
 
+  let latestClosePrice = null; // Variable to store the latest close price
+
   document.getElementById('priceButton').addEventListener('click', function() {
     const actionName = "eodprice";
     const resultDivPrices = document.getElementById('resultPrices');
@@ -15,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(response => response.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
+          latestClosePrice = data[0].close; // Store the latest closing price
+
           // Create a table to display the data
           let table = '<h2>Latest Prices</h2><br><table border="1"><thead><tr><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th><th>Adjusted Open</th><th>Adjusted High</th><th>Adjusted Low</th><th>Adjusted Close</th><th>Adjusted Volume</th></tr></thead><tbody>';
 
@@ -76,9 +80,21 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(url)
       .then(response => response.json())
       .then(data => {
+        let suggestion = '';
+        if (latestClosePrice !== null) {
+          if (latestClosePrice < data.predictedPrice) {
+            suggestion = '<p style="color:green;">Suggestion: Buy the this stock.</p>';
+          } else {
+            suggestion = '<p style="color:red;">Suggestion: Do NOT buy the this stock.</p>';
+          }
+        } else {
+          suggestion = '<p style="color:orange;">Suggestion: Latest price data is not available. Please check latest price first and then run the prediction again.</p>';
+        }
+
         resultDivPrediction.innerHTML = `
           <h2>Predicted Future Price</h2>
           <p><strong>Predicted Price:</strong> ${data.predictedPrice}</p>
+          ${suggestion}
         `;
       })
       .catch(error => {

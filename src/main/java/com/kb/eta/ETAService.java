@@ -30,27 +30,33 @@ public class ETAService {
         return "Hello Ji";
     }
 
-
     @GetMapping("/tickerData/{ticker}")
-    public String getStockMetaData(@PathVariable String ticker,  @RequestParam String actionName) {
-        // String ticker = "AAPL"; // Example ticker
-        // String url = ETAConstants.apiUrl + ticker + "/prices?token=" + ETAConstants.apiKey;
+    public String getStockMetaData(
+            @PathVariable String ticker,
+            @RequestParam String actionName,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate) {
+
         String url = ETAConstants.apiUrl + ticker;
+        System.out.println("Inside the getStockMetaData- startDate: " + startDate + " endDate:" + endDate);
 
-        if (actionName.equalsIgnoreCase("eodprice"))
+        if (actionName.equalsIgnoreCase("eodprice")) {
             url = url + "/prices";
-        else if (actionName.equalsIgnoreCase("historical")) {
-            LocalDate endDate = LocalDate.now().minusDays(1); // Yesterday
-            LocalDate startDate = endDate.minusDays(90); // 90 days before yesterday
+        } else if (actionName.equalsIgnoreCase("historical")) {
+            // If startDate and endDate are not provided, use default values
+            if (startDate == null || endDate == null) {
+                LocalDate defaultEndDate = LocalDate.now().minusDays(1); // Yesterday
+                LocalDate defaultStartDate = defaultEndDate.minusDays(90); // 90 days before yesterday
 
-            // Format dates
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String startDateStr = startDate.format(formatter);
-            String endDateStr = endDate.format(formatter);
+                // Format dates
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                startDate = defaultStartDate.format(formatter);
+                endDate = defaultEndDate.format(formatter);
+            }
 
             url = url + "/prices?" +
-                    "startDate=" + startDateStr +
-                    "&endDate=" + endDateStr;
+                    "startDate=" + startDate +
+                    "&endDate=" + endDate;
         }
 
         // Setup RestTemplate
@@ -70,6 +76,7 @@ public class ETAService {
         System.out.println(response.getBody());
         return response.getBody();
     }
+
 
     public static double predictNextPrice(LinearRegression model, Instances dataset) throws Exception {
         Instance lastInstance = dataset.lastInstance();
