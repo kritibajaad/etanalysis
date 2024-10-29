@@ -6,10 +6,12 @@
   <title>Stock Price Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0"></script>
-  <link rel="stylesheet" href="css/etastyles.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <div class="container">
+  <a href="javascript:history.back()" class="back-button">&#8592; Back</a> <!-- Back arrow button -->
+
   <h1>Stock Price Graph</h1>
   <input type="text" id="tickerInput" placeholder="Enter stock ticker" required>
   <br><br>
@@ -45,7 +47,6 @@
   <br>
   <a id="detailsLink" href="javascript:void(0);" style="display:none;">Latest Price and Predictions</a>&nbsp;
 </div>
-
 
 <script src="js/stock-graph.js"></script>
 
