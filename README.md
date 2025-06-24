@@ -1,4 +1,4 @@
-##EquityAnalyzer
+## EquityAnalyzer
 
 ## Overview
 
