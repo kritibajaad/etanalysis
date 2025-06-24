@@ -1,4 +1,4 @@
-# etanalysis
+#EquityAnalyzer
 
 ## Overview
 
